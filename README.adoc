@@ -12,3 +12,4 @@ links:
 * link:https://axios.nuxtjs.org[axios nuxt.js]
 * link:https://nuxtjs.org/guide/views/[nuxt.js views / error layout]
 * link:https://nuxtjs.org/guide/routing[nuxt.js fallback routing / not-found page]
+* link:https://vuetifyjs.com/ru/[Vietify]
