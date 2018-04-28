@@ -19,7 +19,7 @@ script:
 - wait_for 8080
 - http :8080
 - http :8080/api/data
-- http :8080/resource-not-found
+- http :8080/path-not-found accept:text/html
 - stop_any 80 8080 3000
 
 cache:
