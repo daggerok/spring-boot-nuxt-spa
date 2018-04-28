@@ -1,0 +1,14 @@
+= spring-boot-nuxt-spa image:https://travis-ci.org/daggerok/spring-boot-nuxt-spa.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-boot-nuxt-spa"]
+
+Key points here is:
+
+. add `org.springframework.boot:spring-boot-starter-thymeleaf` dependency in link:/build.gradle[`build.gradle`]
+. point templates configuration `spring.thymeleaf.prefix=classpath:/public/` to public folder in link:tree/master/src/main/resources/application.properties[`src/main/resources/application.properties`]
+. during SPA build copy result `index.html` as `src/main/resources/public/error/4xx.html` and `src/main/resources/public/error/5xx.html` to handle errors with frontend app
+. in vue.js frontend app configure error layout in link:tree/master/frontend/layouts/error.vue[`frontend/layouts/error.vue`]
+
+links:
+
+* link:https://axios.nuxtjs.org[axios nuxt.js]
+* link:https://nuxtjs.org/guide/views/[nuxt.js views / error layout]
+* link:https://nuxtjs.org/guide/routing[nuxt.js fallback routing / not-found page]

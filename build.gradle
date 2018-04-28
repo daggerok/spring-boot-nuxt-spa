@@ -1,0 +1,53 @@
+import java.nio.file.Paths
+
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'com.moowork.node' version '1.2.0'
+    id 'org.springframework.boot' version '2.0.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.5.RELEASE'
+}
+
+group = 'daggerok'
+version = '0.0.1'
+sourceCompatibility = targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-webflux')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compileOnly('org.projectlombok:lombok')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('io.projectreactor:reactor-test')
+}
+
+node {
+    download = true
+    version = '9.11.1'
+    npmVersion = '5.6.0'
+    yarnVersion = '1.6.0'
+    nodeModulesDir = file('frontend')
+}
+
+clean.doFirst {
+    ['nodejs', 'npm', 'yarn'].each { delete "$projectDir/.gradle/$it" }
+    ['out', 'build'].each { delete "$projectDir/$it" }
+    delete Paths.get('src', 'main', 'resources', 'public')
+
+    def clear = project.hasProperty("clear") ? "true" == project.property("clear") : false
+    if (clear) delete Paths.get(project.node.nodeModulesDir.path, 'node_modules')
+}
+
+defaultTasks 'clean', 'build'
+
+assemble.dependsOn processResources, yarn_build
+processResources.shouldRunAfter yarn_build
+yarn_build.dependsOn yarn_install
+
+bootJar {
+    launchScript()
+}

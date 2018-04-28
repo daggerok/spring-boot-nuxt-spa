@@ -1,0 +1,30 @@
+{
+  "name": "spring-boot-nuxt-spa",
+  "version": "1.0.0",
+  "description": "My great Nuxt.js project",
+  "author": "Maksim Kostromin",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "postbuild": "npm-run-all postbuild:*",
+    "postbuild:mkdirp": "mkdirp ../src/main/resources/public/error",
+    "postbuild:ncp-4xx": "ncp ../src/main/resources/public/index.html ../src/main/resources/public/error/4xx.html",
+    "postbuild:ncp-5xx": "ncp ../src/main/resources/public/index.html ../src/main/resources/public/error/5xx.html"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "5.3.1",
+    "nuxt": "1.0.0",
+    "vuetify": "0.17.3"
+  },
+  "devDependencies": {
+    "cross-env": "5.0.1",
+    "mkdirp": "0.5.1",
+    "ncp": "2.0.0",
+    "npm-run-all": "4.1.2",
+    "stylus": "0.54.5",
+    "stylus-loader": "3.0.1"
+  }
+}

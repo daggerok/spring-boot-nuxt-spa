@@ -1,0 +1,28 @@
+env:
+  global:
+  - TERM=dumb
+
+language: java
+jdk: oraclejdk8
+
+install: true
+before_install:
+- sudo apt update -y >/dev/null 2>&1 || true
+- sudo apt install -y --no-install-recommends docker-ce curl jq libxml2-utils python-pip >/dev/null 2>&1
+- sudo pip install docker-compose httpie >/dev/null 2>&1
+- source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
+- stop_any 80 8080 3000
+
+script:
+- bash gradlew
+- bash build/libs/*.jar &
+- wait_for 8080
+- http :8080
+- http :8080/api/data
+- http :8080/resource-not-found
+- stop_any 80 8080 3000
+
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.gradle

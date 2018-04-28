@@ -1,0 +1,37 @@
+# dependencies
+node_modules
+# logs
+npm-debug.log
+# Nuxt build
+.nuxt
+# Nuxt generate
+dist
+
+src/main/resources/public/
+
+.gradle
+/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+/out/
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
