@@ -13,3 +13,8 @@ links:
 * link:https://nuxtjs.org/guide/views/[nuxt.js views / error layout]
 * link:https://nuxtjs.org/guide/routing[nuxt.js fallback routing / not-found page]
 * link:https://vuetifyjs.com/ru/[Vietify]
+
+other links to read:
+
+* link:https://github.com/matsp/material-components-vue[material-components-vue]
+* link:https://github.com/stasson/vue-mdc-adapter[vue-mdc-adapter]
