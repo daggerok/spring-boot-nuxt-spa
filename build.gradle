@@ -27,8 +27,6 @@ dependencies {
   annotationProcessor platform('org.projectlombok:lombok:1.18.4')
   implementation('org.springframework.boot:spring-boot-starter-webflux')
   implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
-//  compileOnly('org.projectlombok:lombok')
-//  testCompileOnly('org.projectlombok:lombok')
   annotationProcessor('org.projectlombok:lombok')
   testImplementation('org.springframework.boot:spring-boot-starter-test')
   testImplementation('io.projectreactor:reactor-test')
@@ -47,8 +45,8 @@ clean.doFirst {
   ['out', 'build'].each { delete "$projectDir/$it" }
   delete Paths.get('src', 'main', 'resources', 'public')
 
-  def clear = project.hasProperty("clear") ? "true" == project.property("clear") : false
-  if (clear) delete Paths.get(project.node.nodeModulesDir.path, 'node_modules')
+  def clear = project.hasProperty('clear') ? 'true' == project.property('clear') : false
+  if (clear) delete Paths.get(project.node.nodeModulesDir.path as String, 'node_modules')
 }
 
 defaultTasks 'clean', 'build'
