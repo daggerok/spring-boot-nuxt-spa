@@ -1,53 +1,81 @@
 import java.nio.file.Paths
 
 plugins {
-    id 'java'
-    id 'eclipse'
-    id 'com.moowork.node' version '1.2.0'
-    id 'org.springframework.boot' version '2.0.1.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.5.RELEASE'
+  id 'idea'
+  id 'java'
+  id 'eclipse'
+  id 'com.moowork.node' version '1.2.0'
+  id 'com.github.ben-manes.versions' version '0.20.0'
+  id 'org.springframework.boot' version '2.1.1.RELEASE'
 }
 
-group = 'daggerok'
-version = '0.0.1'
-sourceCompatibility = targetCompatibility = 1.8
+allprojects {
+  apply plugin: 'base'
+  apply plugin: 'maven'
+  version = '1.0.0-SNAPSHOT'
+  group = 'com.github.daggerok.es'
+  sourceCompatibility = targetCompatibility = 1.8
+  defaultTasks 'clean', 'install', 'build'
+}
 
 repositories {
-    mavenLocal()
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-webflux')
-    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-    compileOnly('org.projectlombok:lombok')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('io.projectreactor:reactor-test')
+  implementation platform('org.springframework.boot:spring-boot-dependencies:2.1.1.RELEASE')
+  annotationProcessor platform('org.projectlombok:lombok:1.18.4')
+  implementation('org.springframework.boot:spring-boot-starter-webflux')
+  implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+//  compileOnly('org.projectlombok:lombok')
+//  testCompileOnly('org.projectlombok:lombok')
+  annotationProcessor('org.projectlombok:lombok')
+  testImplementation('org.springframework.boot:spring-boot-starter-test')
+  testImplementation('io.projectreactor:reactor-test')
 }
 
 node {
-    download = true
-    version = '9.11.1'
-    npmVersion = '5.6.0'
-    yarnVersion = '1.6.0'
-    nodeModulesDir = file('frontend')
+  download = true
+  version = '9.11.1'
+  npmVersion = '5.6.0'
+  yarnVersion = '1.6.0'
+  nodeModulesDir = file('frontend')
 }
 
 clean.doFirst {
-    ['nodejs', 'npm', 'yarn'].each { delete "$projectDir/.gradle/$it" }
-    ['out', 'build'].each { delete "$projectDir/$it" }
-    delete Paths.get('src', 'main', 'resources', 'public')
+  ['nodejs', 'npm', 'yarn'].each { delete "$projectDir/.gradle/$it" }
+  ['out', 'build'].each { delete "$projectDir/$it" }
+  delete Paths.get('src', 'main', 'resources', 'public')
 
-    def clear = project.hasProperty("clear") ? "true" == project.property("clear") : false
-    if (clear) delete Paths.get(project.node.nodeModulesDir.path, 'node_modules')
+  def clear = project.hasProperty("clear") ? "true" == project.property("clear") : false
+  if (clear) delete Paths.get(project.node.nodeModulesDir.path, 'node_modules')
 }
 
 defaultTasks 'clean', 'build'
 
-assemble.dependsOn processResources, yarn_build
-processResources.shouldRunAfter yarn_build
-yarn_build.dependsOn yarn_install
+assemble.dependsOn processResources, npm_run_build
+processResources.shouldRunAfter npm_run_build
+npm_run_build.dependsOn npm_install
 
 bootJar {
-    launchScript()
+  launchScript()
+}
+
+idea {
+  module {
+    downloadJavadoc = false
+    downloadSources = true
+  }
+}
+
+eclipse {
+  classpath {
+    downloadJavadoc = false
+    downloadSources = true
+  }
+}
+
+wrapper {
+  gradleVersion = '5.1-rc-1'
+  distributionType = Wrapper.DistributionType.BIN
 }
