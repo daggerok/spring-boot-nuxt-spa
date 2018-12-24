@@ -1,28 +1,51 @@
 env:
   global:
-  - TERM=dumb
+    - TERM=dumb
 
 language: java
 jdk: oraclejdk8
+node_js: lts/*
+
+addons:
+  apt:
+    packages:
+      - libappindicator1
+      - fonts-liberation
+      - bash
+      - curl
+      - libxml2-utils
+      - docker-ce
+      - google-chrome-stable
+      - tree
+      - jq
+      - python-pip
 
 install: true
 before_install:
-- sudo apt update -y >/dev/null 2>&1 || true
-- sudo apt install -y --no-install-recommends docker-ce curl jq libxml2-utils python-pip >/dev/null 2>&1
-- sudo pip install docker-compose httpie >/dev/null 2>&1
-- source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
-- stop_any 80 8080 3000
+  - export CHROME_BIN=/usr/bin/google-chrome
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  #
+  - sudo apt-get update -yqq >/dev/null 2>&1 || true
+  - sudo apt install -yqq --no-install-recommends
+    docker-ce curl jq libxml2-utils python-pip >/dev/null 2>&1
+  - sudo pip install docker-compose httpie >/dev/null 2>&1
+  - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
+  - stop_any 80 3000 8000 8080
 
 script:
-- bash gradlew
-- bash build/libs/*.jar &
-- wait_for 8080
-- http :8080
-- http :8080/api/data
-- http :8080/path-not-found accept:text/html
-- stop_any 80 8080 3000
+  - ./gradlew
+  - bash ./build/libs/*.jar &
+  - wait_for 8080
+  - http :8080
+  - http :8080/api/data
+  - http :8080/path-not-found accept:text/html
+  - stop_any 80 3000 8000 8080
 
 cache:
   directories:
-  - $HOME/.m2
-  - $HOME/.gradle
+    - $HOME/.m2
+    - $HOME/.gradle
+
+notifications:
+  email: false
