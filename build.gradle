@@ -76,6 +76,6 @@ eclipse {
 }
 
 wrapper {
-  gradleVersion = '5.1-rc-1'
+  gradleVersion = '5.1-rc-3'
   distributionType = Wrapper.DistributionType.BIN
 }
