@@ -1,38 +1,54 @@
 env:
   global:
     - TERM=dumb
-
+notifications:
+  email: false
+git:
+  quiet: true
+  depth: false
 language: java
-jdk: oraclejdk8
+jdk: openjdk8
 node_js: lts/*
-
+python: 3.7
+matrix:
+  include:
+    - python: 3.7
 addons:
   apt:
     packages:
-      - libappindicator1
-      - fonts-liberation
+      - jq
       - bash
       - curl
-      - libxml2-utils
-      - docker-ce
-      - google-chrome-stable
       - tree
-      - jq
-      - python-pip
-
+      - docker-ce
+      - libxml2-utils
+      - libappindicator1
+      - fonts-liberation
+      - google-chrome-stable
+      - python3-setuptools
+      - python3-pip
+services: xvfb
 install: true
 before_install:
   - export CHROME_BIN=/usr/bin/google-chrome
   - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
   #
-  - sudo apt-get update -yqq >/dev/null 2>&1 || true
-  - sudo apt install -yqq --no-install-recommends
-    docker-ce curl jq libxml2-utils python-pip >/dev/null 2>&1
-  - sudo pip install docker-compose httpie >/dev/null 2>&1
-  - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
+  - |
+    if [ ! -f ${HOME}/.local/daggerok/bash-functions/master/main.bash ] ; then
+      mkdir -p ${HOME}/.local/daggerok/bash-functions/master ;
+      curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ${HOME}/.local/daggerok/bash-functions/master/main.bash ;
+    fi
+    source ${HOME}/.local/daggerok/bash-functions/master/main.bash ;
+  - stop_any 80 5432 8080 8081 8082 8083 8084 8085 8086 8087 8088
+  #
+  - export PATH=$HOME/.local/bin:$PATH
+  - pip -V
+  - pip3 install --user --upgrade pip
+  - pip install --user --upgrade httpie
+  - http --version --debug
+  - pip -V
+  #
   - stop_any 80 3000 8000 8080
-
 script:
   - ./gradlew
   - bash ./build/libs/*.jar &
@@ -41,11 +57,8 @@ script:
   - http :8080/api/data
   - http :8080/path-not-found accept:text/html
   - stop_any 80 3000 8000 8080
-
 cache:
   directories:
     - $HOME/.m2
     - $HOME/.gradle
-
-notifications:
-  email: false
+    - $HOME/.local/daggerok
