@@ -10,9 +10,6 @@ language: java
 jdk: openjdk8
 node_js: lts/*
 python: 3.7
-matrix:
-  include:
-    - python: 3.7
 addons:
   apt:
     packages:
@@ -25,7 +22,6 @@ addons:
       - libappindicator1
       - fonts-liberation
       - google-chrome-stable
-      - python3-setuptools
       - python3-pip
 services: xvfb
 install: true
@@ -42,11 +38,8 @@ before_install:
   - stop_any 80 5432 8080 8081 8082 8083 8084 8085 8086 8087 8088
   #
   - export PATH=$HOME/.local/bin:$PATH
-  - pip -V
-  - pip3 install --user --upgrade pip
+  - pip3 install --user --upgrade pip setuptools
   - pip install --user --upgrade httpie
-  - http --version --debug
-  - pip -V
   #
   - stop_any 80 3000 8000 8080
 script:
