@@ -18,3 +18,9 @@ other links to read:
 
 * link:https://github.com/matsp/material-components-vue[material-components-vue]
 * link:https://github.com/stasson/vue-mdc-adapter[vue-mdc-adapter]
+* link:https://github.com/daggerok/webflux-kotlin-ionic-nuxt-mono-app[GitHub: daggerok/webflux-kotlin-ionic-nuxt-mono-app]
+* link:https://github.com/daggerok/typescript-ionic-nuxt-app[GitHub: daggerok/typescript-ionic-nuxt-app]
+* link:https://github.com/daggerok/vue-ionic-example[GitHub: daggerok/vue-ionic-example]
+* link:https://github.com/daggerok/ionic-nuxt-app[GitHub: daggerok/ionic-nuxt-app]
+* link:https://github.com/daggerok/nuxt-examples[GitHub: daggerok/nuxt-examples]
+* link:https://github.com/daggerok/vue-examples[GitHub: daggerok/vue-examples]
