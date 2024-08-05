@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "5.5.4",
-    "nuxt": "2.8.1",
+    "nuxt": "3.12.4",
     "vuetify": "1.5.16"
   },
   "devDependencies": {
